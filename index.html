@@ -1,56 +1,917 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Azeza</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d0d0d;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-    .container {
-      max-width: 600px;
-    }
-    h1 {
-      font-size: 42px;
-    }
-    p {
-      opacity: 0.8;
-    }
-    input {
-      padding: 12px;
-      width: 70%;
-      border: none;
-      border-radius: 4px;
-      margin-top: 10px;
-    }
-    button {
-      padding: 12px 20px;
-      background: #00ff88;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AZEZA™ — Trade smarter. Live differently.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#c9a84c;
+  --gold-bright:#e8c56a;
+  --gold-dim:rgba(201,168,76,0.12);
+  --gold-border:rgba(201,168,76,0.22);
+  --green:#00e87a;
+  --red:#ff3d5a;
+  --blue:#4da6ff;
+  --bg:#060504;
+  --bg-card:rgba(255,255,255,0.03);
+  --border:rgba(255,255,255,0.06);
+  --border-mid:rgba(255,255,255,0.1);
+  --muted:rgba(255,255,255,0.5);
+  --dim:rgba(255,255,255,0.28);
+  --faint:rgba(255,255,255,0.12);
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Sora',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:#fff;
+  font-family:var(--sans);font-weight:300;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:rgba(201,168,76,0.22);color:#fff;}
+a{color:inherit;text-decoration:none;}
+
+/* scanline texture */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.022) 3px,rgba(0,0,0,0.022) 4px);
+  pointer-events:none;z-index:9999;
+}
+.tm{font-size:0.24em;vertical-align:super;letter-spacing:0;font-weight:300;opacity:0.65;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 52px;
+  background:rgba(6,5,4,0.92);
+  border-bottom:1px solid rgba(201,168,76,0.07);
+  backdrop-filter:blur(18px);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:0;
+  font-family:var(--sans);font-size:19px;font-weight:200;
+  letter-spacing:0.14em;user-select:none;
+}
+.nav-brand .na{color:rgba(255,255,255,0.9);}
+.nav-brand .nz{color:var(--gold);}
+.nav-brand .ne{color:rgba(201,168,76,0.42);font-size:17px;}
+.nav-brand .bar{
+  display:inline-block;width:1px;height:16px;
+  background:rgba(201,168,76,0.45);margin:0 1px;vertical-align:middle;
+}
+.nav-right{display:flex;align-items:center;gap:32px;}
+.nav-link{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);transition:color 0.2s;}
+.nav-link:hover{color:#fff;}
+.nav-btn{
+  font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--gold);background:var(--gold-dim);
+  border:1px solid var(--gold-border);
+  padding:9px 22px;border-radius:6px;cursor:pointer;transition:all 0.2s;font-family:var(--sans);
+}
+.nav-btn:hover{background:rgba(201,168,76,0.2);border-color:rgba(201,168,76,0.4);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:140px 48px 100px;position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.032) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.032) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 75% 70% at 50% 50%,black 0%,transparent 100%);
+}
+/* ambient glow */
+.hero-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);
+  width:900px;height:600px;
+  background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 62%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--dim);background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:8px 20px;border-radius:100px;margin-bottom:52px;position:relative;z-index:1;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0.9;animation:blink 3s infinite;}
+@keyframes blink{0%,100%{opacity:0.9;}50%{opacity:0.2;}}
+
+/* AZEZA wordmark */
+.hero-wordmark{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);letter-spacing:0.16em;line-height:1;
+  user-select:none;position:relative;z-index:1;margin-bottom:10px;
+}
+.wm-letter{font-size:clamp(72px,12vw,138px);font-weight:200;}
+.wm-a{color:rgba(255,255,255,0.92);}
+.wm-z{color:var(--gold);}
+.wm-e-wrap{display:inline-flex;align-items:center;margin:0 2px;}
+.wm-bar{
+  display:inline-block;width:2px;
+  height:clamp(64px,10.5vw,122px);
+  background:rgba(201,168,76,0.5);flex-shrink:0;
+}
+.wm-e{color:rgba(201,168,76,0.48);font-size:clamp(72px,12vw,138px);font-weight:200;padding:0 4px;}
+.wm-tm{
+  font-size:clamp(13px,1.4vw,18px);vertical-align:super;
+  color:rgba(201,168,76,0.42);font-weight:300;
+  font-family:var(--sans);align-self:flex-start;margin-top:12px;margin-left:3px;
+}
+
+/* axis line */
+.hero-axis{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;max-width:520px;margin:0 auto 6px;position:relative;z-index:1;
+}
+.axis-line{flex:1;height:1px;}
+.axis-line.l{background:linear-gradient(90deg,transparent,rgba(201,168,76,0.35));}
+.axis-line.r{background:linear-gradient(90deg,rgba(201,168,76,0.35),transparent);}
+.axis-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0.72;flex-shrink:0;margin:0 3px;}
+
+.hero-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.24em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:52px;position:relative;z-index:1;
+}
+.hero-statement{
+  max-width:600px;font-size:19px;font-weight:200;
+  color:rgba(255,255,255,0.78);line-height:1.85;margin-bottom:16px;position:relative;z-index:1;
+}
+.hero-statement em{font-style:normal;color:var(--gold);font-weight:400;}
+.hero-sub{
+  max-width:480px;font-size:14px;font-weight:300;
+  color:var(--dim);line-height:1.8;margin-bottom:64px;position:relative;z-index:1;
+}
+
+/* lifestyle pillars strip */
+.lifestyle-strip{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:52px;position:relative;z-index:1;
+  border:1px solid rgba(201,168,76,0.14);border-radius:10px;
+  background:rgba(201,168,76,0.04);overflow:hidden;
+}
+.ls-item{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 24px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(201,168,76,0.7);
+  border-right:1px solid rgba(201,168,76,0.1);
+  white-space:nowrap;
+}
+.ls-item:last-child{border-right:none;}
+.ls-icon{font-size:14px;opacity:0.8;}
+
+/* ── FORM ── */
+.form-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:460px;position:relative;z-index:1;}
+.form-row{
+  display:flex;width:100%;
+  border:1px solid var(--gold-border);border-radius:8px;overflow:hidden;
+  background:rgba(255,255,255,0.025);
+}
+.form-row input{
+  flex:1;background:transparent;border:none;outline:none;
+  padding:16px 20px;font-family:var(--sans);font-size:14px;font-weight:300;color:#fff;
+}
+.form-row input::placeholder{color:rgba(255,255,255,0.2);}
+.form-row button{
+  background:var(--gold);border:none;padding:16px 28px;
+  font-family:var(--sans);font-size:11px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;color:#060300;cursor:pointer;white-space:nowrap;
+  transition:background 0.2s;
+}
+.form-row button:hover{background:var(--gold-bright);}
+.form-note{font-size:11px;color:var(--faint);letter-spacing:0.06em;}
+.form-success{
+  display:none;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+  color:var(--green);background:rgba(0,232,122,0.06);
+  border:1px solid rgba(0,232,122,0.18);
+  padding:14px 24px;border-radius:8px;width:100%;justify-content:center;
+}
+
+/* ── TICKER ── */
+.fomo-strip{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:16px 0;overflow:hidden;position:relative;
+}
+.fomo-strip::before,.fomo-strip::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;
+}
+.fomo-strip::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+.fomo-strip::after{right:0;background:linear-gradient(270deg,var(--bg),transparent);}
+.fomo-track{display:flex;animation:scroll-left 32s linear infinite;width:max-content;}
+@keyframes scroll-left{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.fomo-item{
+  display:flex;align-items:center;gap:10px;padding:0 40px;
+  font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:0.08em;
+  border-right:1px solid var(--border);white-space:nowrap;
+}
+.fomo-item .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:0.5;}
+
+/* ── SECTIONS ── */
+.section{padding:110px 52px;max-width:1060px;margin:0 auto;}
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.section-h{font-size:clamp(30px,4.5vw,52px);font-weight:200;line-height:1.15;letter-spacing:-0.02em;margin-bottom:22px;}
+.section-p{font-size:16px;font-weight:300;color:var(--muted);max-width:580px;line-height:1.85;margin-bottom:32px;}
+.section-p strong{color:#fff;font-weight:400;}
+.divider{width:100%;height:1px;background:var(--border);}
+
+/* ── LIFESTYLE GRID ── */
+.life-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px;}
+.life-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:14px;padding:32px 28px;
+  transition:border-color 0.25s;position:relative;overflow:hidden;
+}
+.life-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,0.25),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.life-card:hover{border-color:var(--gold-border);}
+.life-card:hover::before{opacity:1;}
+.life-icon{font-size:26px;margin-bottom:18px;display:block;}
+.life-card h3{font-size:15px;font-weight:400;color:#fff;margin-bottom:10px;}
+.life-card p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;}
+
+/* ── CONTRAST SECTION ── */
+.contrast-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  margin-top:52px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.contrast-col{padding:40px 36px;}
+.contrast-col.old{background:rgba(255,255,255,0.02);}
+.contrast-col.new{background:rgba(201,168,76,0.05);border-left:1px solid var(--gold-border);}
+.contrast-col h3{font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:24px;}
+.contrast-col.old h3{color:var(--dim);}
+.contrast-col.new h3{color:var(--gold);}
+.contrast-item{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;font-weight:300;color:var(--muted);
+  margin-bottom:14px;line-height:1.6;
+}
+.contrast-item.new-item{color:rgba(255,255,255,0.75);}
+.c-mark{flex-shrink:0;margin-top:3px;}
+
+/* ── WHO IT'S FOR GRID ── */
+.audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:52px;}
+.aud-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;
+  transition:border-color 0.2s;
+}
+.aud-card:hover{border-color:var(--border-mid);}
+.aud-card h3{font-size:14px;font-weight:500;color:#fff;margin-bottom:10px;}
+.aud-card p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;}
+.aud-card.not{background:rgba(255,61,90,0.03);border-color:rgba(255,61,90,0.1);}
+.aud-card.not h3{color:var(--red);}
+.aud-card.yes{background:rgba(201,168,76,0.04);border-color:var(--gold-border);}
+.aud-card.yes h3{color:var(--gold);}
+
+/* ── JOURNEY ── */
+.journey{display:flex;flex-direction:column;gap:0;margin-top:52px;}
+.journey-step{display:grid;grid-template-columns:64px 1fr;gap:0;position:relative;}
+.journey-step:not(:last-child)::after{
+  content:'';position:absolute;left:31px;top:52px;bottom:0;width:1px;
+  background:linear-gradient(to bottom,rgba(201,168,76,0.3),rgba(201,168,76,0.05));
+}
+.j-num{display:flex;align-items:flex-start;padding-top:16px;}
+.j-circle{
+  width:24px;height:24px;border-radius:50%;
+  border:1px solid var(--gold-border);background:var(--gold-dim);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;color:var(--gold);flex-shrink:0;
+}
+.j-content{padding:14px 0 44px 24px;}
+.j-tag{
+  display:inline-block;font-family:var(--mono);font-size:9px;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:8px;
+}
+.j-content h3{font-size:16px;font-weight:500;color:#fff;margin-bottom:8px;}
+.j-content p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;max-width:520px;}
+
+/* ── PROOF ── */
+.proof-wrap{padding:0 52px 110px;max-width:1060px;margin:0 auto;}
+.proof-card{
+  border:1px solid var(--gold-border);border-radius:14px;
+  background:rgba(201,168,76,0.04);padding:52px;text-align:center;position:relative;overflow:hidden;
+}
+.proof-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent);
+}
+.proof-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:24px;}
+.proof-h{font-size:clamp(22px,4vw,42px);font-weight:200;line-height:1.2;letter-spacing:-0.02em;margin-bottom:20px;}
+.proof-h .g{color:var(--gold);}
+.proof-body{font-size:15px;font-weight:300;color:var(--muted);max-width:500px;margin:0 auto 36px;line-height:1.85;}
+.proof-body strong{color:#fff;font-weight:400;}
+.proof-locked{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--dim);background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);padding:9px 20px;border-radius:100px;
+}
+.redacted-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px;}
+.redacted-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;}
+.redacted-bar{
+  height:28px;border-radius:4px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,0.06) 0px,rgba(255,255,255,0.06) 8px,rgba(255,255,255,0.03) 8px,rgba(255,255,255,0.03) 12px);
+  margin-bottom:10px;position:relative;overflow:hidden;
+}
+.redacted-bar::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%);
+  animation:shimmer 2.5s infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.redacted-label{font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+
+/* ── TIERS ── */
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:52px;}
+.tier-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:14px;padding:28px;position:relative;overflow:hidden;transition:border-color 0.2s;
+}
+.tier-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--tier-color,rgba(255,255,255,0.1));
+}
+.tier-card.featured{border-color:var(--gold-border);background:rgba(201,168,76,0.04);}
+.tier-card.featured::before{background:var(--gold);}
+.tier-locked{
+  position:absolute;top:16px;right:16px;
+  font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--dim);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  padding:4px 10px;border-radius:100px;
+}
+.tier-name{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px;}
+.tier-price{font-family:var(--mono);font-size:32px;font-weight:300;line-height:1;margin-bottom:4px;}
+.tier-price sub{font-size:0.45em;vertical-align:baseline;opacity:0.6;}
+.tier-cycle{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:20px;}
+.tier-divider{height:1px;background:var(--border);margin:20px 0;}
+.tier-feature{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:12px;font-weight:300;color:var(--muted);margin-bottom:10px;line-height:1.5;
+}
+.tier-feature svg{flex-shrink:0;margin-top:2px;}
+.tier-note{
+  font-size:11px;font-weight:300;color:var(--dim);
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--border);
+  line-height:1.6;font-style:italic;
+}
+
+/* ── CTA SECTION ── */
+.cta-section{padding:130px 52px;text-align:center;position:relative;}
+.cta-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:500px;
+  background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 62%);
+  pointer-events:none;
+}
+.cta-inner{max-width:580px;margin:0 auto;}
+.cta-h{font-size:clamp(34px,5vw,64px);font-weight:200;line-height:1.08;letter-spacing:-0.025em;margin-bottom:22px;}
+.cta-h .g{color:var(--gold);}
+.cta-body{font-size:16px;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:52px;}
+.cta-body strong{color:#fff;font-weight:400;}
+.urgency{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--red);background:rgba(255,61,90,0.08);border:1px solid rgba(255,61,90,0.2);
+  padding:8px 18px;border-radius:100px;margin-bottom:36px;
+}
+.urgency-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.8s infinite;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:32px 52px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-brand{
+  display:flex;align-items:center;
+  font-family:var(--sans);font-size:14px;font-weight:200;letter-spacing:0.14em;
+  color:var(--gold);
+}
+.footer-brand .fb-na{color:rgba(255,255,255,0.7);}
+.footer-brand .fb-nz{color:var(--gold);}
+.footer-brand .fb-ne{color:rgba(201,168,76,0.4);}
+.footer-brand .fb-bar{display:inline-block;width:1px;height:12px;background:rgba(201,168,76,0.4);margin:0 1px;vertical-align:middle;}
+.footer-note{font-size:11px;color:var(--faint);letter-spacing:0.05em;}
+.disclaimer{
+  background:rgba(255,255,255,0.01);border-top:1px solid var(--border);
+  padding:22px 52px;text-align:center;font-size:11px;color:var(--faint);line-height:1.8;font-weight:300;
+}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.85s ease,transform 0.85s ease;}
+.reveal.on{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-right a{display:none;}
+  .hero{padding:110px 24px 80px;}
+  .lifestyle-strip{flex-wrap:wrap;gap:0;}
+  .ls-item{border-bottom:1px solid rgba(201,168,76,0.1);border-right:none;width:50%;}
+  .section,.proof-wrap,.cta-section{padding:70px 24px;}
+  .life-grid,.audience-grid,.tiers-grid,.redacted-metrics{grid-template-columns:1fr;}
+  .contrast-wrap{grid-template-columns:1fr;}
+  .contrast-col.new{border-left:none;border-top:1px solid var(--gold-border);}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:24px 20px;}
+  .disclaimer{padding:18px 20px;}
+  .journey-step{grid-template-columns:48px 1fr;}
+  .journey-step::after{left:23px;}
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Azeza™</h1>
-    <p>Aligned Zone Execution. Zero Ambiguity.</p>
-    <p>Get early access to the model.</p>
 
-    <input type="email" placeholder="Enter your email">
-    <br>
-    <button>Join Now</button>
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="na">A</span><span class="nz">Z</span><span class="bar"></span><span class="ne">E</span><span class="bar"></span><span class="nz">Z</span><span class="na">A</span><span class="tm" style="color:rgba(201,168,76,0.5);font-family:var(--sans);">™</span>
   </div>
+  <div class="nav-right">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#access" class="nav-link">Access tiers</a>
+    <button class="nav-btn" onclick="focusForm()">Claim your place</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    Betfair · Sports Trading Model
+  </div>
+
+  <!-- AZEZA wordmark -->
+  <div class="hero-wordmark">
+    <span class="wm-letter wm-a">A</span>
+    <span class="wm-letter wm-z">Z</span>
+    <span class="wm-e-wrap">
+      <span class="wm-bar"></span>
+      <span class="wm-e wm-letter">E</span>
+      <span class="wm-bar"></span>
+    </span>
+    <span class="wm-letter wm-z">Z</span>
+    <span class="wm-letter wm-a">A</span>
+    <span class="wm-tm">™</span>
+  </div>
+
+  <div class="hero-axis">
+    <div class="axis-line l"></div>
+    <div class="axis-dot"></div>
+    <div class="axis-line r"></div>
+  </div>
+
+  <div class="hero-tag" style="margin-top:8px;">Aligned Zone Exchange &nbsp;·&nbsp; Zero Ambiguity &nbsp;·&nbsp;   </div>
+
+  <p class="hero-statement" style="margin-top:44px;">
+    What if your income didn't depend on<br/>
+    <em>where you were, or what time it was?</em>
+  </p>
+  <p class="hero-sub">
+    AZEZA™ is a precision trading intelligence system built on live Betfair football markets. One laptop. A few hours a week. A method that works while you live your life.
+  </p>
+
+  <!-- lifestyle pillars -->
+  <div class="lifestyle-strip">
+    <div class="ls-item"><span class="ls-icon">◈</span>Location independent</div>
+    <div class="ls-item"><span class="ls-icon">◈</span>Work your own hours</div>
+    <div class="ls-item"><span class="ls-icon">◈</span>No boss. No ceiling.</div>
+    <div class="ls-item"><span class="ls-icon">◈</span>Start part-time</div>
+  </div>
+
+  <div class="form-wrap">
+    <div class="form-row">
+      <input type="email" id="hero-email" placeholder="Your email address"/>
+      <button onclick="submitForm('hero')">Start your application</button>
+    </div>
+    <div class="form-success" id="hero-success">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#00e87a" stroke-width="1"/><path d="M4 7l2.2 2.2L10 4.8" stroke="#00e87a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Application received. We'll be in touch directly.
+    </div>
+    <div class="form-note">No payment. No commitment. Just a conversation — if you're selected.</div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="fomo-strip">
+  <div class="fomo-track">
+    <div class="fomo-item"><span class="dot"></span>Crown signal fired · settled WIN · 08:47 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Gate stack cleared · 11:02 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 13:18 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Signal fired · settled WIN · 14:55 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 15:31 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Settlement confirmed · 16:04 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Signal fired · 17:22 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 18:45 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Gate stack cleared · 19:10 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Settlement confirmed · settled WIN · 20:38 UTC</div>
+    <!-- duplicate for seamless loop -->
+    <div class="fomo-item"><span class="dot"></span>Crown signal fired · settled WIN · 08:47 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Gate stack cleared · 11:02 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 13:18 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Signal fired · settled WIN · 14:55 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 15:31 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Settlement confirmed · 16:04 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Signal fired · 17:22 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Crown Tier confirmed · 18:45 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Gate stack cleared · 19:10 UTC</div>
+    <div class="fomo-item"><span class="dot"></span>Settlement confirmed · settled WIN · 20:38 UTC</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- LIFESTYLE SECTION -->
+<section class="section reveal">
+  <div class="section-label">A different kind of income</div>
+  <h2 class="section-h">Trade from anywhere.<br/>Answer to no one.</h2>
+  <p class="section-p">
+    Most people trade their time for money — the same hours, the same commute, the same ceiling. AZEZA™ was built on a completely different model. <strong>The system reads the market for you.</strong> You act on what it finds. A few focused sessions a week, from wherever you choose to be.
+  </p>
+
+  <div class="life-grid">
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>Your schedule, your terms</h3>
+      <p>Football runs every day across every timezone. AZEZA™ scans continuously — you decide when to engage. Morning coffee in Portugal or an afternoon in your home office. The market doesn't care where you are.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>A second income that scales</h3>
+      <p>Start part-time. Build confidence. Many of our members began alongside a day job — treating it as a disciplined income stream before it became their primary one. The system supports either path.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>No office. No commute. No ceiling.</h3>
+      <p>There's no manager to approve your time off. No corporate ladder. No arbitrary cap on what you can earn. Your results are a direct function of the system — and how well you apply it.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>Intelligence, not guesswork</h3>
+      <p>AZEZA™ doesn't ask you to pick winners. It identifies moments of genuine market consensus — where multiple independent signals align to create a high-conviction edge. You follow the signal. Not a hunch.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>Built for real life</h3>
+      <p>Signals are clear, alerts are instant, and the whole system is designed to be operated quickly. You don't need to be glued to a screen. You need to be ready when the system tells you to act.</p>
+    </div>
+    <div class="life-card">
+      <span class="life-icon">✦</span>
+      <h3>A skill with lasting value</h3>
+      <p>Unlike a job, what you learn here compounds. The understanding of how markets form consensus — once you have it — doesn't expire. It sharpens every time you apply it.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE BEFORE / AFTER -->
+<section class="section reveal">
+  <div class="section-label">The shift</div>
+  <h2 class="section-h">What changes when<br/>your income moves online.</h2>
+  <p class="section-p">
+    This isn't about getting rich overnight. It's about building a <strong>structured, disciplined edge</strong> that gives you genuine options — not just financially, but in how you spend your days.
+  </p>
+
+  <div class="contrast-wrap">
+    <div class="contrast-col old">
+      <h3>The conventional path</h3>
+      <div class="contrast-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        Trading your hours for a fixed wage — with someone else deciding what those hours are worth
+      </div>
+      <div class="contrast-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        Asking permission for time off, locked to a location, dependent on approval
+      </div>
+      <div class="contrast-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        Income that stops the moment you stop working
+      </div>
+      <div class="contrast-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        Guessing markets, chasing tips, losing money to noise
+      </div>
+    </div>
+    <div class="contrast-col new">
+      <h3>The AZEZA™ approach</h3>
+      <div class="contrast-item new-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 7l2.2 2.2L10.5 4.8" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        A systematic edge that generates income based on skill — not seniority
+      </div>
+      <div class="contrast-item new-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 7l2.2 2.2L10.5 4.8" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Operate from a laptop, from anywhere, on your schedule
+      </div>
+      <div class="contrast-item new-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 7l2.2 2.2L10.5 4.8" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Build something that runs as long as you apply the method
+      </div>
+      <div class="contrast-item new-item">
+        <svg class="c-mark" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 7l2.2 2.2L10.5 4.8" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        A precision signal system — not a tip service, not a gamble
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHO THIS IS FOR -->
+<section class="section reveal">
+  <div class="section-label">Who this is for</div>
+  <h2 class="section-h">No trading experience<br/>required. Seriously.</h2>
+  <p class="section-p">
+    AZEZA™ was not built for experienced traders. It was built for people <strong>with the right mindset</strong> — curious, disciplined, and open to learning something from first principles. If you've never placed a trade in your life, that's fine. It might even be an advantage.
+  </p>
+
+  <div class="audience-grid">
+    <div class="aud-card not">
+      <h3>This probably isn't for you if...</h3>
+      <p>You've spent years developing trading instincts and aren't open to setting them aside completely. AZEZA™ requires a clean slate. Conditioned habits from other approaches are harder to overwrite than they look.</p>
+    </div>
+    <div class="aud-card yes">
+      <h3>This is exactly for you if...</h3>
+      <p>You want an intelligent, structured way to build online income — and you're willing to go through a proper training programme before you ever act on a signal. You want to understand the why, not just follow instructions blindly.</p>
+    </div>
+    <div class="aud-card" style="border-color:rgba(77,166,255,0.15);background:rgba(77,166,255,0.03);">
+      <h3 style="color:var(--blue);">What you don't need</h3>
+      <p>Prior knowledge of betting, trading, or Betfair. No technical background required. No existing account. We start from absolute first principles — how markets form, what prices mean, what consensus looks like.</p>
+    </div>
+    <div class="aud-card" style="border-color:rgba(0,232,122,0.15);background:rgba(0,232,122,0.03);">
+      <h3 style="color:var(--green);">What you do need</h3>
+      <p>Patience. Discipline. The genuine desire to build something real rather than chase shortcuts. And the understanding that live access is earned — not purchased. The training is the foundation everything else stands on.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE JOURNEY -->
+<section id="how" class="section reveal">
+  <div class="section-label">How it works</div>
+  <h2 class="section-h">Four stages.<br/>One destination.</h2>
+  <p class="section-p">
+    Every person who accesses AZEZA™ goes through the same structured path. There are no fast tracks. The sequence is designed to protect your capital and give you a genuine edge — not just access.
+  </p>
+
+  <div class="journey">
+    <div class="journey-step">
+      <div class="j-num"><div class="j-circle">1</div></div>
+      <div class="j-content">
+        <div class="j-tag">Application</div>
+        <h3>You apply. We review.</h3>
+        <p>Submit your email and a brief note about where you are in life and what draws you to AZEZA™. We're not looking for credentials — we're looking for the right disposition. Someone who wants to build, not speculate.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="j-num"><div class="j-circle">2</div></div>
+      <div class="j-content">
+        <div class="j-tag">One-to-one training</div>
+        <h3>You learn the model from scratch.</h3>
+        <p>Direct with the creator of AZEZA™. Not a recorded course. Not a PDF. A live, structured, one-to-one teaching programme covering how markets form consensus, what the signals mean, how the gate logic works, and how to operate the system with full confidence. You will understand every part of it before you ever act on it.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="j-num"><div class="j-circle">3</div></div>
+      <div class="j-content">
+        <div class="j-tag">Assessment</div>
+        <h3>You demonstrate you're ready.</h3>
+        <p>Before live access is granted, you are assessed. A practical demonstration that you can apply the gate logic independently, interpret signals correctly, and understand exactly what you're doing and why. This protects you — and the integrity of the system.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="j-num"><div class="j-circle">4</div></div>
+      <div class="j-content">
+        <div class="j-tag">Live access</div>
+        <h3>You choose your tier. You trade your way.</h3>
+        <p>Once certified, you select a subscription tier and gain full access to the live AZEZA™ scanner on Betfair — signals, alerts, performance tracking, P&L ledger. The system does the reading. You make the calls. From wherever you are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROOF — REDACTED -->
+<div class="proof-wrap reveal">
+  <div class="proof-card">
+    <div class="proof-eyebrow">Live performance · members only</div>
+    <h2 class="proof-h">The track record is real.<br/><span class="g">It's not ours to broadcast.</span></h2>
+    <p class="proof-body">
+      AZEZA™ has been running live on Betfair markets since launch. Every signal is logged, timestamped, and fully auditable. Performance data is shared directly with students during training — <strong>not published for the world to copy or for competitors to study.</strong>
+    </p>
+    <div class="proof-locked">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+        <rect x="2" y="5" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1"/>
+        <path d="M3.5 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      Shared during training · not before
+    </div>
+    <div class="redacted-metrics">
+      <div class="redacted-card"><div class="redacted-bar"></div><div class="redacted-label">Strike rate</div></div>
+      <div class="redacted-card"><div class="redacted-bar"></div><div class="redacted-label">Signals fired</div></div>
+      <div class="redacted-card"><div class="redacted-bar"></div><div class="redacted-label">Avg settlement</div></div>
+      <div class="redacted-card"><div class="redacted-bar"></div><div class="redacted-label">Crown Tier SR</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ACCESS TIERS -->
+<section id="access" class="section reveal">
+  <div class="section-label">Subscription tiers</div>
+  <h2 class="section-h">Access is earned.<br/>Then it's yours to grow into.</h2>
+  <p class="section-p">
+    Once you've completed training and passed assessment, you unlock three subscription tiers — each giving you deeper access, more signals, and more tools. Choose the level that matches where you want to start. <strong>You can upgrade at any time.</strong>
+  </p>
+
+  <div class="tiers-grid">
+
+    <!-- Tier 1 -->
+    <div class="tier-card" style="--tier-color:rgba(255,255,255,0.15);">
+      <div class="tier-locked">Post-training</div>
+      <div class="tier-name" style="color:var(--dim);">Foundation</div>
+      <div class="tier-price" style="color:#fff;">TBC<sub></sub></div>
+      <div class="tier-cycle">per month</div>
+      <div class="tier-divider"></div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#00e87a" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#00e87a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Live signal access — full scanner
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#00e87a" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#00e87a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Signal Performance tracker
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#00e87a" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#00e87a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Desktop &amp; voice alerts
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M4 4l4 4M8 4l-4 4" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        <span style="color:var(--dim);">Gold Zone filter</span>
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M4 4l4 4M8 4l-4 4" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        <span style="color:var(--dim);">Crown Tier signals</span>
+      </div>
+      <div class="tier-note">The entry point. Enough to start generating income and build real confidence with live markets.</div>
+    </div>
+
+    <!-- Tier 2 — Featured -->
+    <div class="tier-card featured">
+      <div class="tier-locked" style="color:var(--gold);border-color:var(--gold-border);background:var(--gold-dim);">Most chosen</div>
+      <div class="tier-name" style="color:var(--gold);">Gold Zone</div>
+      <div class="tier-price" style="color:var(--gold);">TBC<sub></sub></div>
+      <div class="tier-cycle" style="color:rgba(201,168,76,0.5);">per month</div>
+      <div class="tier-divider"></div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Everything in Foundation
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Gold Zone filter — highest conviction signals only
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Crown Tier signal identification
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#c9a84c" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Full P&amp;L ledger with analytics
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M4 4l4 4M8 4l-4 4" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+        <span style="color:var(--dim);">Lay the Draw model</span>
+      </div>
+      <div class="tier-note" style="color:rgba(201,168,76,0.6);border-color:var(--gold-border);">The complete Over 0.5 system, fully unlocked. Where serious income-building starts.</div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="tier-card" style="--tier-color:rgba(77,166,255,0.4);">
+      <div class="tier-locked" style="color:var(--blue);border-color:rgba(77,166,255,0.2);background:rgba(77,166,255,0.08);">Full access</div>
+      <div class="tier-name" style="color:var(--blue);">Crown</div>
+      <div class="tier-price" style="color:var(--blue);">TBC<sub></sub></div>
+      <div class="tier-cycle" style="color:rgba(77,166,255,0.5);">per month</div>
+      <div class="tier-divider"></div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#4da6ff" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#4da6ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Everything in Gold Zone
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#4da6ff" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#4da6ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Lay the Draw model — full LTD access
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#4da6ff" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#4da6ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Priority signal alerts
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#4da6ff" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#4da6ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ongoing access to model updates &amp; refinements
+      </div>
+      <div class="tier-feature">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#4da6ff" stroke-width="1"/><path d="M3.5 6l1.8 1.8L8.5 4.5" stroke="#4da6ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Direct access for questions &amp; support
+      </div>
+      <div class="tier-note" style="color:rgba(77,166,255,0.6);border-color:rgba(77,166,255,0.15);">For those fully committed to building a significant online income stream. Both models. The complete picture.</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;padding:20px 24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:16px;">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:0.4;"><circle cx="8" cy="8" r="7" stroke="white" stroke-width="1"/><path d="M8 7v4M8 5v1" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <p style="font-size:12px;font-weight:300;color:var(--dim);line-height:1.6;">Subscription pricing will be confirmed before training begins. You will know the full cost before any commitment is made. No surprises.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div id="apply" class="cta-section reveal">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="urgency">
+      <div class="urgency-dot"></div>
+      First cohort forming now — limited places
+    </div>
+    <h2 class="cta-h">The life you want<br/>starts with<br/><span class="g">one decision.</span></h2>
+    <p class="cta-body">
+      More time. More freedom. Income that isn't tied to a desk or a clock.
+      <strong>AZEZA™ gives you a genuine, structured path to building that</strong> — from scratch, from wherever you are.
+      The first cohort is forming now. Places are limited by design — one-to-one means one at a time.
+      <strong>The next available place goes to the next person on the list.</strong>
+    </p>
+    <div class="form-wrap" style="margin:0 auto;">
+      <div class="form-row">
+        <input type="email" id="cta-email" placeholder="Your email address"/>
+        <button onclick="submitForm('cta')">Claim my place now</button>
+      </div>
+      <div class="form-success" id="cta-success">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#00e87a" stroke-width="1"/><path d="M4 7l2.2 2.2L10 4.8" stroke="#00e87a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Application received. We'll be in touch directly.
+      </div>
+      <div class="form-note">No payment. No commitment. Just a conversation — if you're selected.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">
+    <span class="fb-na">A</span><span class="fb-nz">Z</span><span class="fb-bar"></span><span class="fb-ne">E</span><span class="fb-bar"></span><span class="fb-nz">Z</span><span class="fb-na">A</span><span class="tm" style="color:rgba(201,168,76,0.45);font-family:var(--sans);">™</span>
+  </div>
+  <div class="footer-note">Applications open · one-to-one training programme · azeza.co.uk</div>
+  <div class="footer-note">© 2026</div>
+</footer>
+
+<div class="disclaimer">
+  AZEZA™ is a market intelligence training programme and signal tool for informational purposes only. Trading on Betfair Exchange carries financial risk. Past performance does not guarantee future results. Please trade responsibly. 18+ only. BeGambleAware.org
+</div>
+
+<script>
+function focusForm(){
+  document.getElementById('apply').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>document.getElementById('cta-email').focus(),600);
+}
+function submitForm(src){
+  const el=document.getElementById(src+'-email');
+  const email=el?el.value.trim():'';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    el.style.outline='1.5px solid #ff3d5a';
+    setTimeout(()=>{el.style.outline='';},1600);
+    return;
+  }
+  document.querySelectorAll('.form-row').forEach(f=>f.style.display='none');
+  document.querySelectorAll('.form-success').forEach(s=>s.style.display='flex');
+}
+document.querySelectorAll('.form-row input').forEach(input=>{
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Enter')submitForm(input.id.includes('hero')?'hero':'cta');
+  });
+});
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
